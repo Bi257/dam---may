@@ -1,6 +1,6 @@
 package com.distribute.booking.repository;
 
-import com.distribute.booking.model.Log; // Đảm bảo đúng package của class Log
+import com.distribute.booking.model.LogEntry; // Đảm bảo đúng package của class Log
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

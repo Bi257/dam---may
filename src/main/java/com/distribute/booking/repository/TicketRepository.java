@@ -1,6 +1,6 @@
 package com.distribute.booking.repository;
 
-import com.distribute.booking.model.Ticket; // Đảm bảo đúng package của class Ticket
+import com.distribute.booking.model.FlightTicket; // Đảm bảo đúng package của class Ticket
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
