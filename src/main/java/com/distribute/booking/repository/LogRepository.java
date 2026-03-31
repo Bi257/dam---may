@@ -1,11 +1,10 @@
 package com.distribute.booking.repository;
 
-import com.distribute.booking.model.LogEntry; // Đảm bảo đúng package của class Log
+import com.distribute.booking.model.LogEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LogRepository extends JpaRepository<Log, Long> {
-    // JpaRepository đã có sẵn các hàm save, findAll, delete...
-    // Dương không cần viết thêm gì ở đây trừ khi muốn tạo query riêng.
+public interface LogRepository extends JpaRepository<LogEntry, Long> {
+    // Các phương thức truy vấn tùy chỉnh nếu có
 }

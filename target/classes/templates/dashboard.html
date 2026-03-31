@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Distributed Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; }
+        .log-container { display: flex; gap: 20px; padding: 20px; }
+        .log-box { flex: 1; background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .PRIVATE { color: #e67e22; font-weight: bold; } /* Màu Cam giống hình Dương gửi */
+        .SYNC { color: #27ae60; } /* Màu Xanh cho đồng bộ */
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Dashboard: <span th:text="${serverId}"></span></h2>
+    <div class="log-container">
+        <div class="log-box">
+            <h3>Nhóm Log Chi Tiết (Lamport Clock)</h3>
+            <table>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${#temporals.format(log.timestamp, 'HH:mm:ss')}"></td>
+                    <td th:class="${log.type}" th:text="'[' + ${log.type} + ']'"></td>
+                    <td th:text="'t=' + ${log.lamportTime}"></td>
+                    <td th:text="${log.message}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>setTimeout(() => { location.reload(); }, 3000);</script>
+</body>
+</html>

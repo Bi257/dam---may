@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống Đặt Vé Máy Bay - Client</title>
+    <style>
+        :root { --primary-color: #2c3e50; --accent-color: #3498db; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ecf0f1; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 400px; }
+        h2 { color: var(--primary-color); text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #7f8c8d; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: var(--accent-color); border: none; color: white; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #2980b9; transform: translateY(-2px); }
+        .nav-link { display: block; text-align: center; margin-top: 20px; color: var(--accent-color); text-decoration: none; font-size: 14px; }
+        #status { text-align: center; margin-top: 15px; font-weight: bold; }
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>✈️ Đặt Vé Máy Bay</h2>
+    <div class="form-group">
+        <label>Họ và Tên Khách Hàng</label>
+        <input type="text" id="customerName" placeholder="Ví dụ: Lưu Viễn Dương">
+    </div>
+    <div class="form-group">
+        <label>Số Hiệu Chuyến Bay</label>
+        <input type="text" id="flightNumber" placeholder="Ví dụ: VJ123, VN456">
+    </div>
+    <button onclick="bookTicket()">Xác Nhận Đặt Vé</button>
+    
+    <div id="status"></div>
+
+    <a href="/dashboard" class="nav-link">Xem Dashboard Log Hệ Thống →</a>
+</div>
+
+<script>
+    async function bookTicket() {
+        const name = document.getElementById('customerName').value;
+        const flight = document.getElementById('flightNumber').value;
+        const statusDiv = document.getElementById('status');
+
+        if (!name || !flight) {
+            statusDiv.innerHTML = "Vui lòng nhập đầy đủ thông tin!";
+            statusDiv.className = "error";
+            return;
+        }
+
+        const data = {
+            customerName: name,
+            flightNumber: flight
+        };
+
+        try {
+            statusDiv.innerHTML = "Đang xử lý...";
+            const response = await fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.text();
+                statusDiv.innerHTML = "✅ " + result;
+                statusDiv.className = "success";
+                // Reset form
+                document.getElementById('customerName').value = '';
+                document.getElementById('flightNumber').value = '';
+            } else {
+                statusDiv.innerHTML = "❌ Lỗi hệ thống!";
+                statusDiv.className = "error";
+            }
+        } catch (error) {
+            statusDiv.innerHTML = "❌ Không thể kết nối tới Server!";
+            statusDiv.className = "error";
+        }
+    }
+</script>
+
+</body>
+</html>
